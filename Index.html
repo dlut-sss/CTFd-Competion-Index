@@ -1,0 +1,326 @@
+<script src="/files/06aad92f67924c790894a94f56241c1a/index.js"></script>
+
+<style>
+@media screen and (max-width: 768px) {
+	h3 {
+		left: 0 !important;
+		max-width: 525px;
+	}
+	.dutctf {
+		font-size: 3em !important;
+		font-family: unifont;
+		font-size: 100px
+	}
+}
+
+@media screen and (max-width: 600px) {
+	h3 {
+		left: 10% !important;
+		max-width: 400px;
+	}
+	.dutctf {
+		font-size: 3em !important;
+		font-family: unifont;
+		font-size: 100px
+	}
+}
+.title {
+    font-size: 2.2em;
+    text-shadow: 0 3px 0 rgb(255 105 246 / 80%);
+    position: relative;
+    left: -45%;
+}
+h3 {
+    width: 200%;
+    position: relative;
+    left: -40%;
+    font-size: 1.2em;
+}
+.dutctf {
+    margin: auto;
+    position: relative;
+    top: -14px;
+    font-size: 4em;
+    position: relative;
+    color: #0e3742;
+    text-align: center;
+    font-weight: 200;
+    -webkit-box-reflect: below 1px linear-gradient(transparent, #0008);
+    line-height: 0.7em;
+    outline: none;
+    cursor: default;
+    animation: animate 5s linear infinite;
+    font-family: unifont;
+    font-size: 100px
+}
+@keyframes animate {
+	0%, 18%, 20%, 50.1%, 60%, 65.1%, 80%, 90.1%, 92% {
+		color: #0e3742;
+		text-shadow: none;
+	}
+	18.1%, 20.1%, 30%, 50%, 60.1%, 65%, 80.1%, 90%, 92.1%, 100% {
+		color: #fff;
+		text-shadow: 0 0 10px #03bcf4, 0 0 20px #03bcf4, 0 0 40px #03bcf4, 0 0 80px #03bcf4, 0 0 160px #03bcf4;
+	}
+}
+.scr1w-img-div {
+    display: flex;
+    position: relative;
+    left: -5.625em;
+}
+.scr1w-png {
+    max-width: 31.25em;
+    padding: 3.125em;
+    padding-top: 2vh;
+}
+#timer{
+	margin-top: 20px;
+	margin-bottom: -20px;
+}
+</style>
+<div class="row" id="timer" hidden>
+  <div class="col-md-12">
+    <div>
+      <div class="alert alert-info alert-dismissable text-center" role="alert"> <span id="timer-text"></span> </div>
+    </div>
+  </div>
+</div>
+<script>
+
+	var start = new Date("{{ ctf_start }}").getTime();
+	start = Math.floor(start / 1000);
+	var end = new Date("{{ ctf_end }}").getTime();
+	end = Math.floor(end / 1000);
+	var name = "{{ ctf_name }}";
+	if (getLanguage() === "en")
+	{
+		setInterval(function () {
+			var current = Date.now();
+			current = Math.floor(current / 1000);
+			if (current < parseInt(start)) {
+				try {
+					document.getElementById("loading").outerHTML = '';
+				}catch (e)
+				{
+
+				}
+				var timeRemaining = parseInt(start) - current;
+				var days = Math.floor(timeRemaining / (24 * 60 * 60)); // 计算剩余天数
+				var hours = Math.floor((timeRemaining % (24 * 60 * 60)) / (60 * 60)); // 计算剩余小时数
+				var minutes = Math.floor((timeRemaining % (60 * 60)) / 60); // 计算剩余分钟数
+				var seconds = timeRemaining % 60; // 计算剩余秒数
+				var formattedTime = "";
+				if (days > 0) {
+					if (days >1)
+					{
+						formattedTime += days + " days ";
+					}else
+					{
+						formattedTime += days + " day ";
+					}
+				}
+				if (hours > 0) {
+					if (hours >1)
+					{
+						formattedTime += hours + " hours ";
+					}else
+					{
+						formattedTime += hours + " hour ";
+					}
+				}
+				if (minutes > 0) {
+					if (minutes >1)
+					{
+						formattedTime += minutes + " minutes ";
+					}else
+					{
+						formattedTime += minutes + " minute ";
+					}
+				}
+				if (seconds > 0) {
+					if (seconds >1)
+					{
+						formattedTime += seconds + " seconds";
+					}else
+					{
+						formattedTime += seconds + " second";
+					}
+				}
+				document.getElementById("timer").hidden = false;
+				document.getElementById("timer-text").innerText = name + " starts in " + formattedTime;
+			} else if (current === parseInt(start)) {
+				document.getElementById("timer").hidden = false;
+				document.getElementById("timer-text").innerText = name + " started!";
+				setTimeout(window.updateChallengeBoard(),1000);
+				var e = new Object;
+				e.title = name + " started!";
+				e.body = name+" started! Eliminate those challenges!";
+				e.button = "Let's go!";
+				CTFd.ui.ezq.ezAlert(e)
+			} else if (current < parseInt(end)) {
+				var timeRemaining = parseInt(end) - current;
+				var days = Math.floor(timeRemaining / (24 * 60 * 60)); // 计算剩余天数
+				var hours = Math.floor((timeRemaining % (24 * 60 * 60)) / (60 * 60)); // 计算剩余小时数
+				var minutes = Math.floor((timeRemaining % (60 * 60)) / 60); // 计算剩余分钟数
+				var seconds = timeRemaining % 60; // 计算剩余秒数
+				var formattedTime = "";
+				if (days > 0) {
+					if (days >1)
+					{
+						formattedTime += days + " days ";
+					}else
+					{
+						formattedTime += days + " day ";
+					}
+				}
+				if (hours > 0) {
+					if (hours >1)
+					{
+						formattedTime += hours + " hours ";
+					}else
+					{
+						formattedTime += hours + " hour ";
+					}
+				}
+				if (minutes > 0) {
+					if (minutes >1)
+					{
+						formattedTime += minutes + " minutes ";
+					}else
+					{
+						formattedTime += minutes + " minute ";
+					}
+				}
+				if (seconds > 0) {
+					if (seconds >1)
+					{
+						formattedTime += seconds + " seconds";
+					}else
+					{
+						formattedTime += seconds + " second";
+					}
+				}
+				document.getElementById("timer").hidden = false;
+				document.getElementById("timer-text").innerText = name + " ends in " + formattedTime;
+			} else if (current === parseInt(end)) {
+				document.getElementById("timer").hidden = false;
+				document.getElementById("timer-text").innerText = name + " has ended!";
+				var e = new Object;
+				e.title = name + " has ended!";
+				e.body = "Time is up!";
+				e.button = "okay";
+				CTFd.ui.ezq.ezAlert(e)
+			}
+		}, 1000)
+	}else
+	{
+		setInterval(function () {
+			var current = Date.now();
+			current = Math.floor(current / 1000);
+			if (current < parseInt(start)) {
+				try {
+					document.getElementById("loading").outerHTML = '';
+				}catch (e)
+				{
+
+				}
+				var timeRemaining = parseInt(start) - current;
+				var days = Math.floor(timeRemaining / (24 * 60 * 60)); // 计算剩余天数
+				var hours = Math.floor((timeRemaining % (24 * 60 * 60)) / (60 * 60)); // 计算剩余小时数
+				var minutes = Math.floor((timeRemaining % (60 * 60)) / 60); // 计算剩余分钟数
+				var seconds = timeRemaining % 60; // 计算剩余秒数
+				var formattedTime = "";
+				if (days > 0) {
+					formattedTime += days + "天";
+				}
+				if (hours > 0) {
+					formattedTime += hours + "小时";
+				}
+				if (minutes > 0) {
+					formattedTime += minutes + "分";
+				}
+				if (seconds > 0) {
+					formattedTime += seconds + "秒";
+				}
+				document.getElementById("timer").hidden = false;
+				document.getElementById("timer-text").innerText = name + "还有" + formattedTime + "开始";
+			} else if (current === parseInt(start)) {
+				document.getElementById("timer").hidden = false;
+				document.getElementById("timer-text").innerText = name + "开始了！";
+				setTimeout(window.updateChallengeBoard(),1000);
+				var e = new Object;
+				e.title = name + "开始了！";
+				e.body = name+"开始了！快去答题吧！";
+				e.button = "好的";
+				CTFd.ui.ezq.ezAlert(e)
+			} else if (current < parseInt(end)) {
+				var timeRemaining = parseInt(end) - current;
+				var days = Math.floor(timeRemaining / (24 * 60 * 60)); // 计算剩余天数
+				var hours = Math.floor((timeRemaining % (24 * 60 * 60)) / (60 * 60)); // 计算剩余小时数
+				var minutes = Math.floor((timeRemaining % (60 * 60)) / 60); // 计算剩余分钟数
+				var seconds = timeRemaining % 60; // 计算剩余秒数
+				var formattedTime = "";
+				if (days > 0) {
+					formattedTime += days + "天";
+				}
+				if (hours > 0) {
+					formattedTime += hours + "小时";
+				}
+				if (minutes > 0) {
+					formattedTime += minutes + "分";
+				}
+				if (seconds > 0) {
+					formattedTime += seconds + "秒";
+				}
+				document.getElementById("timer").hidden = false;
+				document.getElementById("timer-text").innerText = name + "还有" + formattedTime + "结束";
+			} else if (current === parseInt(end)) {
+				document.getElementById("timer").hidden = false;
+				document.getElementById("timer-text").innerText = name + "已经结束了喵";
+				var e = new Object;
+				e.title = name + "结束了！";
+				e.body = "时间到了哦！";
+				e.button = "好的";
+				CTFd.ui.ezq.ezAlert(e)
+			}
+		}, 1000)
+	}
+</script>
+<div class="row">
+  <div class="col-md-6 offset-md-3">
+    <div class="scr1w-img-div" style=""> <img class="w-50 mx-auto d-block scr1w-png"
+                src="/files/0141d38b4da7f92e05e995e6129ae493/螺丝.png" />
+      <h1 class="dutctf" style="">DUTCTF</h1>
+      <br>
+    </div>
+    <p>
+    <h3 class="title"><i class="fa-solid fa-book"></i>&nbsp;比赛介绍</h3>
+    <h3>DUTCTF为大连理工大学信息安全竞赛创新实践能力赛，于每年3月份举办，能力赛由大连理工大学，中共市委网信办主办，由大连理工大学信息与通信工程学院，大连市网络空间安全重点实验室承办，由大连理工大学软件学院创新创业中心螺丝工作室提供竞赛技术支持，面向具有正式学籍的，大连理工大学各专业各年级在读的全日制本科生、预科生。⽐赛采取线上CTF解题形式,由组内人员策划、运维、命题，旨在普及网络安全知识、激发网络安全兴趣。</h3>
+    <h3 class="title"><i class="fa-solid fa-cubes"></i>&nbsp;题目介绍</h3>
+    <h3>1.主要含有五大方向，Web(网站渗透攻防)、Pwn(二进制漏洞利用)、Reverse(逆向工程)、Misc(安全杂项)、Crypto(密码学)</h3>
+    <h3>2.目的是获得题目中的flag，flag通常为一段有意义字符串，例如：DUTCTF{N1c3_to_m3et_y0u_In_DUTCTF2024}</h3>
+    <h3>3.题目动态分数初始值1000分，随解题人数增加而递减，设置一二三血，有额外积分加成，后续按题目实际分数赋值。</h3>
+    <h3 class="title"><i class="fa-regular fa-clock"></i>&nbsp;比赛时间</h3>
+    <h3>2024年3⽉16⽇ 09:00 - 3⽉17⽇ 21:00</h3>
+    <h3 class="title"><i class="fa-solid fa-scale-balanced"></i>&nbsp;竞赛规则</h3>
+    <h3> 1.比赛结束后24h内，请所有参赛队伍提交详细解题报告WriteUp至dut_sss@163.com <br>
+      2.不提交wp的队伍排名作废，排名顺延<br>
+      3.禁止不同参赛队伍合作，共享解题思路、flag等<br>
+      4.禁止攻击比赛平台，如发现漏洞请向我们报告<br>
+      5.禁止向平台发送大量流量，没有题目需要使用扫描器<br>
+      6.禁止妨碍其他队伍做题，例如恶意扫描端口<br>
+      7.禁止爆破提交flag，每道题目的flag仅限提交15次<br>
+      8.大赛主办方有权修改包括赛题、规则等一切比赛规则<br>
+      9.参赛选手如有任何违规行为，将被取消比赛资格<br>
+    </h3>
+    <h3 class="title"><i class="fa-solid fa-ranking-star"></i>&nbsp;得分排名</h3>
+    <h3> 1. 所有题⽬的flag 的格式为 flag{.+}/dutctf{.+}/flag{.+}，请提交包含 flag{}的完整 flag；如果 flag 采⽤其他形式的字符串，题⽬中会阐明<br />
+      2.最终排名根据每个参赛选手的总分确定，在多个选手得分相同的情况下，越早达到这一分值的排名越高 </h3>
+    <h3 class="title"><i class="fa-brands fa-qq"></i>&nbsp;联系方式</h3>
+    <h3>螺丝网安2023QQ群：876052305<br />
+      大连理工大学信息安全竞赛-实践赛qq群：171180068<br/>
+      大连理工大学信息安全竞赛官网：http://ice.dlut.edu.cn/dutcis </h3>
+    </p>
+    <br>
+  </div>
+</div>
